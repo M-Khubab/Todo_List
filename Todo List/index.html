@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #000;
+            color: aliceblue;
+            text-decoration: none;
+        }
+
+        .todo-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .inputbutton {
+            display: flex;
+        }
+
+        .inputbutton button:hover {
+            background: #000;
+            color: aliceblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="todo-container">
+        <h1>To-Do List</h1>
+        <div class="inputbutton">
+            <input type="text" id="todo-input" placeholder="Add a new task...">
+            <button id="add-btn">Add Task</button>
+        </div>
+        <ul id="todo-list"></ul>
+    </div>
+</body>
+<script>
+    document.getElementById("add-btn").onclick = function () {
+        let taskText = document.getElementById("todo-input").value;
+        let li = document.createElement("li");
+        let taskSpan = document.createElement("span");
+        taskSpan.textContent = taskText;
+
+        let editBtn = document.createElement("button");
+        editBtn.textContent = "edit";
+        editBtn.onclick = function () {
+            let newTaskText = prompt("edit your task");
+            if (newTaskText !== null && newTaskText.trim() !== "") {
+                taskSpan.textContent = newTaskText;
+            }
+        }
+        let removeBtn = document.createElement("button");
+        removeBtn.textContent = "x";
+        removeBtn.onclick = function () {
+            li.remove();
+            updateNumbering();
+        }
+        li.appendChild(taskSpan);
+        li.appendChild(editBtn);
+        li.appendChild(removeBtn);
+        document.getElementById("todo-list").appendChild(li);
+
+        document.getElementById("todo-input").value = "";
+        updateNumbering();
+
+        function updateNumbering() {
+            let update = document.querySelectorAll("#todo-list li");
+            update.forEach((item, index) => {
+                console.log(item.firstChild.textContent)
+                item.firstChild.textContent = (index + 1) + ". " + item.firstChild.textContent.split(".")[1];
+            });
+        }
+
+        if (taskText === "") {
+            alert("add a new task")
+            return
+        }
+
+    }
+
+
+
+</script>
+
+</html>
